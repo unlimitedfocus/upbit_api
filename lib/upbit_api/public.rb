@@ -17,7 +17,7 @@ module UpbitApi
         market: market,
         to: to,
         count: count
-      }).parsed_response
+      }, verify: true).parsed_response
     end
 
     # https://docs.upbit.com/v1.0/reference#%EC%9D%BCday-%EC%BA%94%EB%93%A4-1
@@ -28,7 +28,7 @@ module UpbitApi
         to: to,
         count: count,
         convertingPriceUnit: converting_price_unit
-      }).parsed_response
+      }, verify: true).parsed_response
     end
 
     # https://docs.upbit.com/v1.0/reference#%EC%A3%BCweek-%EC%BA%94%EB%93%A4-1
@@ -37,7 +37,7 @@ module UpbitApi
         market: market,
         to: to,
         count: count
-      }).parsed_response
+      }, verify: true).parsed_response
     end
 
     # https://docs.upbit.com/v1.0/reference#%EC%9B%94month-%EC%BA%94%EB%93%A4-1
@@ -46,7 +46,7 @@ module UpbitApi
         market: market,
         to: to,
         count: count
-      }).parsed_response
+      }, verify: true).parsed_response
     end
 
     # https://docs.upbit.com/v1.0/reference#%EC%8B%9C%EC%84%B8-%EC%B2%B4%EA%B2%B0-%EC%A1%B0%ED%9A%8C
@@ -56,21 +56,21 @@ module UpbitApi
         to: to,
         count: count,
         cursor: cursor
-      }).parsed_response
+      }, verify: true).parsed_response
     end
 
     # https://docs.upbit.com/v1.0/reference#%EC%8B%9C%EC%84%B8-ticker-%EC%A1%B0%ED%9A%8C
     def self.ticker(markets)
       get("/v1/ticker", query: {
         markets: markets
-      }).parsed_response
+      }, verify: true).parsed_response
     end
 
     # https://docs.upbit.com/v1.0/reference#%EC%8B%9C%EC%84%B8-%ED%98%B8%EA%B0%80-%EC%A0%95%EB%B3%B4orderbook-%EC%A1%B0%ED%9A%8C
     def self.orderbook(markets)
       get("/v1/orderbook", query: {
         markets: markets
-      }).parsed_response
+      }, verify: true).parsed_response
     end
   end
 end
