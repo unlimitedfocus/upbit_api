@@ -1,14 +1,16 @@
 PATH
   remote: .
   specs:
-    upbit_api (0.0.0)
+    upbit_api (0.0.1)
       httparty (~> 0.16.2)
       jwt (~> 2.1.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
+    byebug (10.0.2)
     coderay (1.1.2)
+    dotenv (2.5.0)
     ffi (1.9.25)
     formatador (0.2.5)
     guard (2.14.2)
@@ -42,6 +44,9 @@ GEM
     pry (0.11.3)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
+    pry-byebug (3.6.0)
+      byebug (~> 10.0)
+      pry (~> 0.10)
     rake (10.5.0)
     rb-fsevent (0.10.3)
     rb-inotify (0.9.10)
@@ -56,12 +61,14 @@ PLATFORMS
 
 DEPENDENCIES
   bundler (~> 1.16)
+  dotenv (~> 2.5.0)
   guard (~> 2.14.2)
   guard-minitest (~> 2.4.6)
   minitest (~> 5.0)
+  pry-byebug (~> 3.6.0)
   rake (~> 10.0)
   terminal-notifier-guard (~> 1.6.1)
   upbit_api!
 
 BUNDLED WITH
-   1.16.5
+   1.17.1

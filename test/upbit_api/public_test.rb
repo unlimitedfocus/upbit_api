@@ -2,8 +2,12 @@ require "test_helper"
 require 'pry'
 
 class PublicTest < Minitest::Test
+  def setup
+    @client = UpbitApi.client
+  end
+
   def test_market
-    result = UpbitApi::Public.market
+    result = @client.market
     # pp result
     refute_nil result
 
@@ -14,27 +18,27 @@ class PublicTest < Minitest::Test
   end
 
   # def test_candles
-  #   result_minutes = UpbitApi::Public.candles('minutes', 'KRW-BTC', 3, 5)
+  #   result_minutes = @client.candles('minutes', 'KRW-BTC', 3, 5)
   #   refute_nil result_minutes
 
-  #   result_days = UpbitApi::Public.candles('days', 'KRW-BTC')
+  #   result_days = @client.candles('days', 'KRW-BTC')
   #   refute_nil result_days
 
-  #   result_weeks = UpbitApi::Public.candles('weeks', 'KRW-BTC')
+  #   result_weeks = @client.candles('weeks', 'KRW-BTC')
   #   refute_nil result_weeks
 
-  #   result_months = UpbitApi::Public.candles('months', 'KRW-BTC')
+  #   result_months = @client.candles('months', 'KRW-BTC')
   #   refute_nil result_months
   # end
 
   def test_candles_minutes
-    result = UpbitApi::Public.candles_minutes(1, 'KRW-BTC')
+    result = @client.candles_minutes(1, 'KRW-BTC')
     # pp result
     refute_nil result
   end
 
   def test_candles_minutes_count_5
-    result = UpbitApi::Public.candles_minutes(1, 'KRW-BTC', 5)
+    result = @client.candles_minutes(1, 'KRW-BTC', 5)
     # pp result
     refute_nil result
 
@@ -43,7 +47,7 @@ class PublicTest < Minitest::Test
 
   def test_candles_minutes_with_to_date
     # to_date = DateTime.now.strftime('%Y-%m-%dT%H:%M:%S')
-    result = UpbitApi::Public.candles_minutes(1, 'KRW-BTC', 3, nil)
+    result = @client.candles_minutes(1, 'KRW-BTC', 3, nil)
     # pp result
     refute_nil result
 
@@ -52,20 +56,20 @@ class PublicTest < Minitest::Test
 
   # FIXME: unit has invalid input value
   def test_candles_minutes_with_unit_2_returns_nil
-    result = UpbitApi::Public.candles_minutes(2, 'KRW-BTC')
+    result = @client.candles_minutes(2, 'KRW-BTC')
     # pp result
     refute_nil result
     refute result[:errors].nil?
   end
 
   def test_candles_days
-    result = UpbitApi::Public.candles_days('KRW-BTC')
+    result = @client.candles_days('KRW-BTC')
     # pp result
     refute_nil result
   end
 
   def test_candles_days_count_10
-    result = UpbitApi::Public.candles_days('KRW-BTC', 10)
+    result = @client.candles_days('KRW-BTC', 10)
     # pp result
     refute_nil result
 
@@ -73,38 +77,38 @@ class PublicTest < Minitest::Test
   end
 
   def test_candles_days_with_converting_price_unit
-    result = UpbitApi::Public.candles_days('KRW-BTC', 10, nil, 'KRW')
+    result = @client.candles_days('KRW-BTC', 10, nil, 'KRW')
     # pp result
     refute_nil result
   end
 
   def test_candles_weeks
-    result = UpbitApi::Public.candles_weeks('KRW-BTC')
+    result = @client.candles_weeks('KRW-BTC')
     # pp result
     refute_nil result
   end
 
   def test_candles_months
-    result = UpbitApi::Public.candles_months('KRW-BTC')
+    result = @client.candles_months('KRW-BTC')
     # pp result
     refute_nil result
   end
 
   def test_trades_ticks
     # time = DateTime.now.strftime('%Y-%m-%dT%H:%M:%S')
-    result = UpbitApi::Public.trades_ticks('KRW-BTC', 1, 1)
+    result = @client.trades_ticks('KRW-BTC', 1, 1)
     # pp result
     refute_nil result
   end
 
   def test_ticker
-    result = UpbitApi::Public.ticker('KRW-BTC,KRW-ETH')
+    result = @client.ticker('KRW-BTC,KRW-ETH')
     # pp result
     refute_nil result
   end
 
   def test_orderbook
-    result = UpbitApi::Public.orderbook('KRW-BTC,KRW-ETH')
+    result = @client.orderbook('KRW-BTC,KRW-ETH')
     # pp result
     refute_nil result
   end
