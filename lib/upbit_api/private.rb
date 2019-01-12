@@ -1,13 +1,19 @@
+require 'forwardable'
+
 module UpbitApi
   # Public API
   class Private
+    extend Forwardable
     include HTTParty
     base_uri 'https://api.upbit.com'
 
-    attr_accessor :authorization
+    attr_accessor :authorization, :public
+
+    def_delegators :@public, :market, :candles_minutes, :candles_days, :candles_weeks, :candles_months, :trades_ticks, :ticker, :orderbook
 
     def initialize(authorization)
       @authorization = authorization
+      @public = Public.new
     end
 
     # https://docs.upbit.com/v1.0/reference#%EC%9E%90%EC%82%B0-%EC%A1%B0%ED%9A%8C
@@ -45,30 +51,31 @@ module UpbitApi
       UpbitApi.response self.class.get('/v1/order', query: query, headers: authorization_headers(query))
     end
 
-    # TODO: Not tested
+    # TODO: Need more test
     # https://docs.upbit.com/v1.0/reference#%EC%A3%BC%EB%AC%B8%ED%95%98%EA%B8%B0-1
-    # def place_order(market, side, volume, price, ord_type, identifier = nil)
-    #   query = {
-    #     market: market,
-    #     side: side,
-    #     volume: volume,
-    #     price: price,
-    #     ord_type: ord_type,
-    #     identifier: identifier
-    #   }.compact
+    # side: bid(buy), ask(sell)
+    def place_order(market, side, volume, price, ord_type = 'limit', identifier = nil)
+      query = {
+        market: market,
+        side: side,
+        volume: volume,
+        price: price,
+        ord_type: ord_type,
+        identifier: identifier
+      }.compact
 
-    #   UpbitApi.response self.class.post('/v1/orders', query: query, headers: authorization_headers(query))
-    # end
+      UpbitApi.response self.class.post('/v1/orders', query: query, headers: authorization_headers(query))
+    end
 
-    # TODO: Not tested
+    # TODO: Need more test
     # https://docs.upbit.com/v1.0/reference#%EC%A3%BC%EB%AC%B8-%EC%B7%A8%EC%86%8C
-    # def cancel_order(uuid)
-    #   query = {
-    #     uuid: uuid
-    #   }
+    def cancel_order(uuid)
+      query = {
+        uuid: uuid
+      }
 
-    #   UpbitApi.response self.class.delete('/v1/order', query: query, headers: authorization_headers(query))
-    # end
+      UpbitApi.response self.class.delete('/v1/order', query: query, headers: authorization_headers(query))
+    end
 
     # https://docs.upbit.com/v1.0/reference#%EC%A0%84%EC%B2%B4-%EC%B6%9C%EA%B8%88-%EC%A1%B0%ED%9A%8C
     # state = [submitting, submitted, almost_accepted, rejected, accepted, processing, done, canceled]
@@ -100,28 +107,28 @@ module UpbitApi
       UpbitApi.response self.class.get('/v1/withdraws/chance', query: query, headers: authorization_headers(query))
     end
 
-    # TODO: Not tested
+    # TODO: Need more test
     # https://docs.upbit.com/v1.0/reference#%EC%B6%9C%EA%B8%88-%EA%B0%80%EB%8A%A5-%EC%A0%95%EB%B3%B4
-    # def withdraws_coin(currency, amount, address, secondary_address)
-    #   query = {
-    #     currency: currency,
-    #     amount: amount,
-    #     address: address,
-    #     secondary_address: secondary_address
-    #   }.compact
+    def withdraws_coin(currency, amount, address, secondary_address)
+      query = {
+        currency: currency,
+        amount: amount,
+        address: address,
+        secondary_address: secondary_address
+      }.compact
 
-    #   UpbitApi.response self.class.post('/v1/withdraws/coin', query: query, headers: authorization_headers(query))
-    # end
+      UpbitApi.response self.class.post('/v1/withdraws/coin', query: query, headers: authorization_headers(query))
+    end
 
-    # TODO: Not tested
+    # TODO: Need more test
     # https://docs.upbit.com/v1.0/reference#%EC%9B%90%ED%99%94-%EC%B6%9C%EA%B8%88%ED%95%98%EA%B8%B0
-    # def withdraws_krw(amount)
-    #   query = {
-    #     amount: amount
-    #   }
+    def withdraws_krw(amount)
+      query = {
+        amount: amount
+      }
 
-    #   UpbitApi.response self.class.post('/v1/withdraws/krw', query: query, headers: authorization_headers(query))
-    # end
+      UpbitApi.response self.class.post('/v1/withdraws/krw', query: query, headers: authorization_headers(query))
+    end
 
     # https://docs.upbit.com/v1.0/reference#%EC%9E%85%EA%B8%88
     def deposits(currency, limit = nil, page = 1, order_by = 'asc')
@@ -143,8 +150,6 @@ module UpbitApi
 
       UpbitApi.response self.class.get('/v1/deposit', query: query, headers: authorization_headers(query))
     end
-
-    private
 
     def authorization_headers(query = nil)
       {Authorization: "Bearer #{@authorization.sign(query)}"}

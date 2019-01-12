@@ -12,7 +12,7 @@ class AuthorizationTest < Minitest::Test
   end
 
   def test_nonce
-    pp @authorization.nonce
+    # pp @authorization.nonce
     refute_nil @authorization.nonce
   end
 
@@ -29,6 +29,6 @@ class AuthorizationTest < Minitest::Test
     result = payload.first
 
     assert_equal @authorization.access_key, result['access_key']
-    assert_equal 'world', result['query']['hello']
+    assert_equal 'hello', result['query']['hello']
   end
 end
