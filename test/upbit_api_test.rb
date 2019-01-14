@@ -1,7 +1,7 @@
 require "test_helper"
 
 class UpbitApiTest < Minitest::Test
-  def test_that_it_has_a_version_0_0_0
+  def test_that_it_has_a_version_0_0_1
     assert_equal "0.0.1", ::UpbitApi::VERSION
   end
 
