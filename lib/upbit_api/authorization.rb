@@ -28,7 +28,7 @@ module UpbitApi
     end
 
     def nonce
-      DateTime.now.strftime('%Q')
+      (Time.now.to_f * 1000 + (0 / 1000)).to_i.to_s
     end
   end
 end
