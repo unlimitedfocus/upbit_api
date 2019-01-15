@@ -29,7 +29,10 @@ module UpbitApi
     if result.success?
       result.parsed_response
     else
-      { errors: (result.parsed_response || result.code) }
+      error = result.parsed_response rescue result.code 
+      { 
+        errors: error
+      }
     end
   end
 end
